@@ -1,9 +1,10 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
 import { addBook } from "../features/bookSlice";
 
-const BookForm = () => {
+const BookForm = ({bookToEdit, onCancel}) => {
     
     const [book, setBook] = useState({
         title: "",
@@ -11,6 +12,14 @@ const BookForm = () => {
         price: "",
         quantity: "",
     });
+
+    useEffect(()=>{
+if (bookToEdit){
+  setBook(bookToEdit);
+}
+
+    },[bookToEdit])
+
 
     const dispatch= useDispatch();
     
@@ -64,8 +73,10 @@ const BookForm = () => {
         required
       />
 
-<button type="submit">AddBook</button>
-      
+<button type="submit">
+  {bookToEdit? 'Update Book' : 'Add Book'}
+</button>
+      {bookToEdit && <button onClick={onCancel}>Cancel</button>}
     </form>
   );
 };
