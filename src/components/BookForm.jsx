@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useDispatch } from "react-redux";
-import { addBook } from "../features/bookSlice";
+import { addBook, updateBook } from "../features/bookSlice";
 
 const BookForm = ({bookToEdit, onCancel}) => {
     
@@ -32,7 +32,18 @@ if (bookToEdit){
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(addBook({...book, id:nanoid() }))
+    if(bookToEdit){
+      dispatch(updateBook(book));
+    }
+    else{
+      dispatch(addBook({...book, id:nanoid() }))
+    }
+    setBook({
+      title: "",
+      author: "",
+      price: "",
+      quantity: "",
+  });
   };
 
   return (
